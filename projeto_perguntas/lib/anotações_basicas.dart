@@ -90,6 +90,7 @@ main(){
     for(var i = 0; i < qtd; i++){
       print("O produto ${nome} tem o preço de R\$${preco}");
     }
+  }
 
   imprimirProduto(5,nome: p1.nome, preco: 10.00);
 }
