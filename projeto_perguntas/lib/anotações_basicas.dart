@@ -70,9 +70,34 @@ main(){
   final int b = 3; 
   const int d = 4; //Você não pode alterar o valor porém ela é sempre inicializa, mesmo sem ser utilizada. Outro ponto, const pode ser usada em listas, já final não.
 
-  
+  //Função que chama outra função
+  int exec ( int a, int b, int Function(int, int) fn ){
+    return fn(a,b);
+  }
 
+  //Função no formato arrow function
+  final r = exec(2,3, (a,b) => a * b + 100 );
 
+  print('O resultado é $r!!!');
 
+  var p1 = Produto(nome: "Caneta");
+  /*p1.nome = "Caneta";
+  p1.preco = 4.59;*/
 
+  print("O produto ${p1.nome} tem o preço de R\$${p1.preco}");
+
+  imprimirProduto(int qtd, {String nome, double preco}) {
+    for(var i = 0; i < qtd; i++){
+      print("O produto ${nome} tem o preço de R\$${preco}");
+    }
+
+  imprimirProduto(5,nome: p1.nome, preco: 10.00);
+}
+
+class Produto {
+  String nome;
+  double preco;
+
+  //Entre chaves, eles se tornan opcionais e tbm pode-se adicionar valores defaults
+  Produto({this.nome = "Renato", this.preco = 1.99}); 
 }
