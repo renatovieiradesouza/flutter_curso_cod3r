@@ -1,49 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './questao.dart';
+import './questionario.dart';
+import './resultado.dart';
 
 main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
-  var perguntaSelecionada = 0;  
+  var _perguntaSelecionada = 0;  
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
   
   void _responder(){
-    setState(() {
-      perguntaSelecionada++;
-    });
-    print(perguntaSelecionada);
+    if(temPerguntaSelecionada){
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
   }  
+
+  //Não é necessáio informar o tipo abaixo (List<Map<String,Object>>) pois o Flutter infere pra vc! xD
+  final _perguntas = [
+    {
+      'texto': 'Qual é sua cor favorita?',
+      'respostas':['Preto','Vermelho','Azul','Branca'],
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas':['Gato','Cachorro','Pato','Pinguim'],
+    },
+    {
+      'texto': 'Quantos filhos você tem?',
+      'respostas':["UM","DOIS","TRÊS","MAIS"]
+    }
+  ];  
 
   @override
   Widget build(BuildContext context) {   
-
-    final List<String> perguntas = [
-      "Qual é a sua cor favorita?",
-      "Qual é o seu animal favorito?"
-    ];
-
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("Perguntas"),
         ),
-        body: Column(
-          children: <Widget>[
-            Questao(perguntas[perguntaSelecionada]),
-            RaisedButton(
-              child: Text("Resposta 1"),
-              onPressed: _responder,
-            ),
-            RaisedButton(
-              child: Text("Resposta 2"),
-              onPressed: _responder,
-            ),
-            RaisedButton(
-              child: Text("Resposta 3"),
-              onPressed: _responder,
-            ),
-          ],
-        ),
+        body: temPerguntaSelecionada ? 
+        Questionario(
+          perguntas: _perguntas, 
+          perguntaSelecionada: _perguntaSelecionada, 
+          responder: _responder) : Resultado("Parabéns..."),
       ),
     );
   }
